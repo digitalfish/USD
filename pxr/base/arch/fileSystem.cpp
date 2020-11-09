@@ -1109,7 +1109,6 @@ int ArchFileAccess(const char* path, int mode)
     return result ? 0 : -1;
 }
 
-// https://msdn.microsoft.com/en-us/library/windows/hardware/ff552012.aspx
 
 std::string ArchReadLink(const char* path)
 {
