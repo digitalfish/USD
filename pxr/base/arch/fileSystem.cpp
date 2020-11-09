@@ -1113,25 +1113,25 @@ int ArchFileAccess(const char* path, int mode)
 
 std::string ArchReadLink(const char* path)
 {
-	bool success = false;
+    bool success = false;
 
-	std::string target = "";
+    std::string target = "";
 
-	auto handle = CreateFileA(path, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
+    auto handle = CreateFileA(path, 0, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
 
-	if (handle != INVALID_HANDLE_VALUE) {
-		const DWORD maxsize = 32768;
-		const std::unique_ptr<char[]> buffer(new char[maxsize]);
-		const auto rc = GetFinalPathNameByHandleA(handle, buffer.get(), maxsize, 0);
-		if (rc > 0 && rc < maxsize) {
-			char * path = buffer.get();
-			target = std::string(&path[4]);
-			success = true;
-		}
+    if (handle != INVALID_HANDLE_VALUE) {
+        const DWORD maxsize = 32768;
+        const std::unique_ptr<char[]> buffer(new char[maxsize]);
+        const auto rc = GetFinalPathNameByHandleA(handle, buffer.get(), maxsize, 0);
+        if (rc > 0 && rc < maxsize) {
+            char * path = buffer.get();
+            target = std::string(&path[4]);
+            success = true;
+        }
 
-		CloseHandle(handle);
-	}
-	return target;
+        CloseHandle(handle);
+    }
+    return target;
 }
 
 #else
