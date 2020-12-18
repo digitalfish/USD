@@ -1400,6 +1400,8 @@ def InstallUSD(context, force, buildArgs):
             extraArgs.append('-DBUILD_SHARED_LIBS=ON')
         elif context.buildMonolithic:
             extraArgs.append('-DPXR_BUILD_MONOLITHIC=ON')
+        else:
+            extraArgs.append('-DBUILD_SHARED_LIBS=OFF')
 
         if context.buildDebug:
             extraArgs.append('-DTBB_USE_DEBUG_BUILD=ON')
@@ -1622,7 +1624,7 @@ group.add_argument("--inst", type=str,
 
 group = parser.add_argument_group(title="USD Options")
 
-(SHARED_LIBS, MONOLITHIC_LIB) = (0, 1)
+(SHARED_LIBS, MONOLITHIC_LIB, STATIC_LIBS) = (0, 1, 2)
 subgroup = group.add_mutually_exclusive_group()
 subgroup.add_argument("--build-shared", dest="build_type",
                       action="store_const", const=SHARED_LIBS, 
@@ -1631,6 +1633,9 @@ subgroup.add_argument("--build-shared", dest="build_type",
 subgroup.add_argument("--build-monolithic", dest="build_type",
                       action="store_const", const=MONOLITHIC_LIB,
                       help="Build a single monolithic shared library")
+subgroup.add_argument("--build-static", dest="build_type",
+                      action="store_const", const=STATIC_LIBS,
+                      help="Build individual static libraries")
 
 group.add_argument("--debug", dest="build_debug", action="store_true",
                     help="Build with debugging information")
